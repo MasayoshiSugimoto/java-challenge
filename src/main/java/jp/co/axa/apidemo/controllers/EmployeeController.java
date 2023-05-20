@@ -3,6 +3,8 @@ package jp.co.axa.apidemo.controllers;
 import io.swagger.annotations.ApiOperation;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.services.EmployeeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1")
 public class EmployeeController {
+
+    private static Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
     @Autowired
     private EmployeeService employeeService;

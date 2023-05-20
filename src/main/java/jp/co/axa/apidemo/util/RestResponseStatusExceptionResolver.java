@@ -8,6 +8,12 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * This class defines the behavior of the application when an exception occurs.
+ *
+ * Exceptions generated inside controllers will be handled here and converted to
+ * the appropriate http error.
+ */
 @Component
 public class RestResponseStatusExceptionResolver extends AbstractHandlerExceptionResolver {
 
