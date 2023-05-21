@@ -45,8 +45,28 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 
 #### Your experience in Java
 
-Please let us know more about your Java experience in a few sentences. For example:
+I have 14 years of experience as a developer spread across many industries and languages.
+I have 5 years of experience using Java. 4 years using Spring and 1 year using Spring Boot.
 
-- I have 3 years experience in Java and I started to use Spring Boot from last year
-- I'm a beginner and just recently learned Spring Boot
-- I know Spring Boot very well and have been using it for many years
+Below are the applications I developed in Java:
+- Trading platform using CQRS Axon Framework and fix protocol.
+- Financial static data normalizer.
+- Low latency/high throughput trading test application to test quantum network for government project.
+- 2FA login system.
+
+
+#### Regarding the submission
+
+Below is what I have changed.
+- System tests have been added for `EmployeeController` endpoints.
+- Logs have been improved. A request id is generated and added to each request. The implemented logger will
+  retrieve the request id from the request context and prepend it to each log message.
+- Some documentation have been added to the swagger client.
+- Improved error handling.
+
+I implemented what I considered to be high priority changes. 
+
+There is no specific context so I did not change api signatures or things which requires consideration of the
+requirements. I believe that in most cases, some architecture pattern already exist in real environments regarding
+authentication/authorization. I did not implement anything regarding security as the implementation would most likely
+be dictated by the company solution. 
