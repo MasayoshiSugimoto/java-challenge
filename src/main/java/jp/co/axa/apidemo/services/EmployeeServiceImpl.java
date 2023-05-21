@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,14 +40,32 @@ public class EmployeeServiceImpl implements EmployeeService {
             logger.info("Employee {} deleted successfully.", employeeId);
             return true;
         } catch (EmptyResultDataAccessException e) {
-            logger.warn("Employee {} no found.", employeeId);
+            logger.warn("Employee {} not found.", employeeId);
             return false;  // Suppress error on deletion of unknown employee.
         }
     }
 
-    public void updateEmployee(Employee employee) {
-        logger.info("updateEmployee({})", employee);
-        employeeRepository.save(employee);
-        logger.info("Employee {} updated.", employee.getId());
+    public boolean updateEmployee(Employee newEmployee) {
+        logger.info("updateEmployee({})", newEmployee);
+        Employee oldEmployee;
+        try {
+            oldEmployee = employeeRepository.getOne(newEmployee.getId());
+
+            if (oldEmployee == null) {
+                logger.info("Unknown employee with id: {}.", newEmployee.getId());
+                return false;
+            }
+
+            oldEmployee.setName(newEmployee.getName());
+            oldEmployee.setDepartment(newEmployee.getDepartment());
+            oldEmployee.setSalary(newEmployee.getSalary());
+            employeeRepository.save(oldEmployee);
+        } catch (EntityNotFoundException e) {
+            logger.info("Unknown employee with id: {}.", newEmployee.getId());
+            return false;
+        }
+
+        logger.info("Employee {} updated.", newEmployee.getId());
+        return true;
     }
 }

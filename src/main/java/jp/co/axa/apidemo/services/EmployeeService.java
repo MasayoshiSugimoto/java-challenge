@@ -15,5 +15,5 @@ public interface EmployeeService {
 
     boolean deleteEmployee(Long employeeId);
 
-    void updateEmployee(Employee employee);
+    boolean updateEmployee(Employee employee);
 }

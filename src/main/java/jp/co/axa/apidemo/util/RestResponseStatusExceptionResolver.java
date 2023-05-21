@@ -33,7 +33,7 @@ public class RestResponseStatusExceptionResolver extends AbstractHandlerExceptio
                 logger.warn("Invalid argument exception: {}", exception.getMessage());
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             } else {
-                logger.warn("Unknown error: {}", exception.getMessage());
+                logger.error("Unknown error: {}", exception.getMessage());
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {

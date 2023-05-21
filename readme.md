@@ -63,10 +63,11 @@ Below is what I have changed.
   retrieve the request id from the request context and prepend it to each log message.
 - Some documentation have been added to the swagger client.
 - Improved error handling.
+- Update logic moved inside the service for atomic operation.
 
 I implemented what I considered to be high priority changes. 
 
-There is no specific context so I did not change api signatures or things which requires consideration of the
+There is no specific context so I did not change api signatures as they should be changed according to
 requirements. I believe that in most cases, some architecture pattern already exist in real environments regarding
 authentication/authorization. I did not implement anything regarding security as the implementation would most likely
 be dictated by the company solution. 

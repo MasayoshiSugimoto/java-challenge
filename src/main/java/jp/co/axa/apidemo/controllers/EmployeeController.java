@@ -67,13 +67,10 @@ public class EmployeeController {
             throw new IllegalArgumentException("`employeeId` and `employee.id` must be same.");
         }
 
-        Optional<Employee> maybeEmployee = employeeService.getEmployee(employeeId);
-        if (maybeEmployee.isPresent()) {
-            logger.info("Employee {} found.", employeeId);
-            employeeService.updateEmployee(employee);
+        if (employeeService.updateEmployee(employee)) {
             logger.info("Employee {} updated.", employeeId);
         } else {
-            logger.info("Employee {} not found.", employeeId);
+            logger.info("Failed to update employee {}.", employeeId);
         }
     }
 
