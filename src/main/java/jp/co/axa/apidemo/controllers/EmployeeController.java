@@ -3,8 +3,7 @@ package jp.co.axa.apidemo.controllers;
 import io.swagger.annotations.ApiOperation;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.services.EmployeeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jp.co.axa.apidemo.util.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/api/v1")
 public class EmployeeController {
 
-    private static Logger logger = LoggerFactory.getLogger(EmployeeController.class);
+    private static final Logger logger = new Logger(EmployeeController.class);
 
     @Autowired
     private EmployeeService employeeService;
@@ -24,41 +23,57 @@ public class EmployeeController {
     @ApiOperation("Retrieve all employees.")
     @GetMapping("/employees")
     public List<Employee> getEmployees() {
+        logger.info("getEmployees()");
         List<Employee> employees = employeeService.retrieveEmployees();
+        logger.trace("getEmployees() => {}", employees);  // Trace level because of data size.
         return employees;
     }
 
     @ApiOperation("Retrieve an employee from it's employee Id.")
     @GetMapping("/employees/{employeeId}")
     public Employee getEmployee(@PathVariable(name="employeeId") Long employeeId) {
-        return employeeService.getEmployee(employeeId).orElse(null);
+        logger.info("getEmployee({})", employeeId);
+        Employee employee = employeeService.getEmployee(employeeId).orElse(null);
+        logger.info("getEmployee({}) => {}", employeeId, employee);
+        return employee;
     }
 
     @ApiOperation("Save a new employee.")
     @PostMapping("/employees")
     public void saveEmployee(@RequestBody Employee employee) {
+        logger.info("saveEmployee({})", employee);
         employeeService.saveEmployee(employee);
-        System.out.println("Employee Saved Successfully");
+        logger.info("Employee {} saved successfully.", employee.getName());
     }
 
     @ApiOperation("Delete an employee from his employee Id.")
     @DeleteMapping("/employees/{employeeId}")
     public void deleteEmployee(@PathVariable(name="employeeId") Long employeeId) {
-        employeeService.deleteEmployee(employeeId);
-        System.out.println("Employee Deleted Successfully");
+        logger.info("deleteEmployee({})", employeeId);
+        if (employeeService.deleteEmployee(employeeId)) {
+            logger.info("Employee {} deleted.", employeeId);
+        } else {
+            logger.info("Employee {} not found.", employeeId);
+        }
     }
 
     @ApiOperation("Update an employee. Both `employeeId` and `employee.id` must be equal.")
     @PutMapping("/employees/{employeeId}")
     public void updateEmployee(@RequestBody Employee employee,
                                @PathVariable(name="employeeId") Long employeeId) {
+        logger.info("updateEmployee({}, {})", employee, employeeId);
         if (employee.getId() != employeeId) {
+            logger.warn("`employeeId` and `employee.id` must be same.");
             throw new IllegalArgumentException("`employeeId` and `employee.id` must be same.");
         }
 
         Optional<Employee> maybeEmployee = employeeService.getEmployee(employeeId);
         if (maybeEmployee.isPresent()) {
+            logger.info("Employee {} found.", employeeId);
             employeeService.updateEmployee(employee);
+            logger.info("Employee {} updated.", employeeId);
+        } else {
+            logger.info("Employee {} not found.", employeeId);
         }
     }
 

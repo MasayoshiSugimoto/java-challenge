@@ -35,4 +35,15 @@ public class Employee {
     @Column(name="DEPARTMENT")
     private String department;
 
+
+    public String toString() {
+        return String.format(
+                "{class: Employee, id: %d, name: %s, salary: %d, department: %s}",
+                id,
+                name,
+                salary,
+                department
+        );
+    }
+
 }
